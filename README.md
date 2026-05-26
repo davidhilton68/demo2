@@ -1,7 +1,5 @@
-- Added isClusterLeader(contextInstanceId) to ContextMachineCache — consults ZooKeeper via a registered LeaderProvider rather than inferring leadership from stale cache state
-  - Wired LeaderProvider registration into ContextMachineClusterConfiguration
-  - Replaced all unsafe getLocalByContextInstanceId != null guard-pattern usages in SplitContextInstanceVisualisation, ContextInstanceTreeViewWidget, and ContextInstanceWidget with isClusterLeader
-  - Updated ContextMachineController REST endpoints to gate on isClusterLeader, preventing a stale former-leader from serving stale data to peers
-  - Left ScheduleProcessInboundProducer unchanged — event processing is local-only by design
-
-
+Extended ContextMachine interface with getDlqMessages, deleteDlqMessage, and deleteAllDlqMessages; implemented in ContextMachineRestImpl proxy so follower nodes can access the leader's DLQ via REST
+  - Refactored DeadLetterQueueManagementWidget to use getByContextInstanceId so both leader and follower can display and manage DLQ entries
+  - Fixed cross-cluster UI sync on Job Plan Template Management — added missing ContextTemplateSavedEventBroadcaster.broadcast() calls after all mutating operations
+  - Fixed action icons disappearing on the receiving node after a broadcast — SecurityContextHolder is null on background threads; switched to captured authentication
+  - Fixed encryption dialog — added null guard for spring.config.server.url and improved error logging
