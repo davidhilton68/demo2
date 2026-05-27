@@ -1,5 +1,5 @@
-Extended ContextMachine interface with getDlqMessages, deleteDlqMessage, and deleteAllDlqMessages; implemented in ContextMachineRestImpl proxy so follower nodes can access the leader's DLQ via REST
-  - Refactored DeadLetterQueueManagementWidget to use getByContextInstanceId so both leader and follower can display and manage DLQ entries
-  - Fixed cross-cluster UI sync on Job Plan Template Management — added missing ContextTemplateSavedEventBroadcaster.broadcast() calls after all mutating operations
-  - Fixed action icons disappearing on the receiving node after a broadcast — SecurityContextHolder is null on background threads; switched to captured authentication
-  - Fixed encryption dialog — added null guard for spring.config.server.url and improved error logging
+Investigated why job BF_MD_CR_CURVE in the MARKET_DATA_LOAD_MHI child context of MUREX_MHI_BATCH_prd was showing as
+   skipped on Tuesday with no audit trail. Ruled out stale template data and prepared-instance pre-seeding via Solr
+  queries. Identified that the skip likely originated from a template-level skip set on Monday (bank holiday), which
+  propagated to Tuesday's instance at creation time without triggering any runtime log or system event. Next step:
+  confirm by checking the body text of Monday's system event entry.
