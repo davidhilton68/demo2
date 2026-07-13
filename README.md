@@ -5,3 +5,4 @@
   - Added public.service.address for PEER1 and PEER2 configs.
   - Deleted stale Solr moduleMetaData for ikasan-dashboard-node2.
   - Confirmed PEER2 now advertises http://127.0.0.2:9095.
+7.
